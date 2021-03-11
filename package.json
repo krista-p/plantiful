@@ -30,6 +30,7 @@
     "prettier": "^2.2.1"
   },
   "dependencies": {
+    "dotenv": "^8.2.0",
     "moment": "^2.29.1"
   },
   "config": {
