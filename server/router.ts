@@ -1,5 +1,3 @@
-'use strict';
-
 const router = require('express').Router();
 const plant = require('./controllers/plant');
 const userPlant = require('./controllers/userPlant');
@@ -13,4 +11,4 @@ router.post('/userplants', userPlant.postUserPlant);
 router.put('/userplants/:id', userPlant.updateNextWater);
 router.delete('/userplants/:id', userPlant.deleteUserPlant);
 
-module.exports = router;
+export = router;

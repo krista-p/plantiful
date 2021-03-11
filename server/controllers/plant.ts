@@ -1,8 +1,7 @@
-'use strict';
+import { Plant } from '../models/plant';
+import { Request, Response } from 'express';
 
-const Plant = require('../models/plant');
-
-exports.getPlants = async (req, res) => {
+exports.getPlants = async (_: Request, res: Response) => {
   try {
     const plants = await Plant.find();
     res.status(200);
@@ -14,7 +13,7 @@ exports.getPlants = async (req, res) => {
   }
 };
 
-exports.findPlant = async (req, res) => {
+exports.findPlant = async (req: Request, res: Response) => {
   try {
     const plant = await Plant.findOne({ common_name: req.params.name });
     res.status(200);
@@ -26,7 +25,7 @@ exports.findPlant = async (req, res) => {
   }
 };
 
-exports.postPlant = async (req, res) => {
+exports.postPlant = async (req: Request, res: Response) => {
   try {
     const plant = await Plant.create(req.body);
     res.status(201);

@@ -1,8 +1,7 @@
-'use strict';
+import { UserPlant } from '../models/userPlant';
+import { Request, Response } from 'express';
 
-const UserPlant = require('../models/userPlant');
-
-exports.getUserPlants = async (req, res) => {
+exports.getUserPlants = async (_: Request, res: Response) => {
   try {
     const userPlants = await UserPlant.find();
     res.status(200);
@@ -14,7 +13,7 @@ exports.getUserPlants = async (req, res) => {
   }
 };
 
-exports.postUserPlant = async (req, res) => {
+exports.postUserPlant = async (req: Request, res: Response) => {
   try {
     const userPlant = await UserPlant.create(req.body);
     res.status(201);
@@ -26,7 +25,7 @@ exports.postUserPlant = async (req, res) => {
   }
 };
 
-exports.updateNextWater = async (req, res) => {
+exports.updateNextWater = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const userPlant = await UserPlant.findByIdAndUpdate(id, req.body, {
@@ -40,7 +39,7 @@ exports.updateNextWater = async (req, res) => {
   }
 };
 
-exports.deleteUserPlant = async (req, res) => {
+exports.deleteUserPlant = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     await UserPlant.findByIdAndDelete(id);
