@@ -1,8 +1,6 @@
-'use strict';
+import { Schema, model } from 'mongoose';
 
-const { Schema, model } = require('mongoose');
-
-const PlantSchema = new Schema({
+const PlantSchema: Schema = new Schema({
   common_name: { type: String, required: true },
   scientific_name: { type: String, required: true },
   origin: { type: String, required: true },
@@ -31,4 +29,4 @@ const PlantSchema = new Schema({
   },
 });
 
-module.exports = model('Plant', PlantSchema);
+export const Plant = model('Plant', PlantSchema);

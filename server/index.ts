@@ -1,13 +1,11 @@
-'use strict';
-
-const express = require('express');
-const cors = require('cors');
-const morgan = require('morgan');
-const router = require('./router');
-const connection = require('./models/index');
+import express from 'express';
+import cors from 'cors';
+import morgan from 'morgan';
+import router = require('./router');
+import connection = require('./models/index');
 
 const app = express();
-const PORT = 3001;
+const PORT: number = 3001;
 
 app.use(morgan('tiny'));
 app.use(cors());
