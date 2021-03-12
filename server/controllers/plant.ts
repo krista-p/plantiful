@@ -1,5 +1,5 @@
-import { Plant } from '../models/plant';
 import { Request, Response } from 'express';
+import { Plant } from '../models/plant';
 
 exports.getPlants = async (_: Request, res: Response) => {
   try {
