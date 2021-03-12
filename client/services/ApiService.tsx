@@ -10,18 +10,18 @@ function fetchRequest(path: string, options: object) {
 }
 
 function getPlants() {
-  return fetchRequest('/plants');
+  return fetchRequest('/plants', {});
 }
 
-function findPlant(name) {
-  return fetchRequest(`/plants/${name}`);
+function findPlant(name: string) {
+  return fetchRequest(`/plants/${name}`, {});
 }
 
 function getUserPlants() {
-  return fetchRequest('/userplants');
+  return fetchRequest('/userplants', {});
 }
 
-function updateNextWater(id, body) {
+function updateNextWater(id: string, body: object) {
   return fetchRequest(`/userplants/${id}`, {
     method: 'PUT',
     headers: {
@@ -31,13 +31,13 @@ function updateNextWater(id, body) {
   });
 }
 
-function deleteUserPlant(id) {
+function deleteUserPlant(id: string) {
   return fetchRequest(`/userplants/${id}`, {
     method: 'DELETE',
   });
 }
 
-function postPlant(body) {
+function postPlant(body: object) {
   return fetchRequest('/userplants', {
     method: 'POST',
     headers: {

@@ -51,7 +51,11 @@
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-react-native": "^3.10.0",
+<<<<<<< HEAD
     "typescript": "^4.0.7"
+=======
+    "typescript": "~4.0.0"
+>>>>>>> d3047714a0cbeeaf9814565fb7a92a628e3c4a24
   },
   "private": true
 }

@@ -28,6 +28,7 @@ module.exports = {
     'react-native/no-color-literals': 2,
     'react-native/no-raw-text': 2,
     'react-native/no-single-element-style-arrays': 2,
+<<<<<<< HEAD
     'import/extentions': 0,
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
     'react/react-in-jsx-scope': 0,
@@ -57,4 +58,9 @@ module.exports = {
       },
     },
   ],
+=======
+    'import/extensions': 0,
+    'react/jsx-filename-extension': [2, { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
+  },
+>>>>>>> d3047714a0cbeeaf9814565fb7a92a628e3c4a24
 };

@@ -12,91 +12,125 @@ import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
 import { Quattrocento_700Bold } from '@expo-google-fonts/quattrocento';
 import { FanwoodText_400Regular } from '@expo-google-fonts/fanwood-text';
+import PropTypes from 'prop-types';
+import { Subscription } from '@unimodules/core';
 import ApiService from './services/ApiService';
 import Home from './screens/Home/Home';
 import AddPlant from './screens/AddPlant/AddPlant';
 import GreenhouseStackNavigation from './screens/GreenhouseStackNavigation/GreenhouseStackNavigation';
 
-async function registerForPushNotificationsAsync() {
-  let token;
-  if (Constants.isDevice) {
-    const {
-      status: existingStatus,
-    } = await Notifications.getPermissionsAsync();
-    let finalStatus = existingStatus;
-    if (existingStatus !== 'granted') {
-      const { status } = await Notifications.requestPermissionsAsync();
-      finalStatus = status;
-    }
-    if (finalStatus !== 'granted') {
-      alert('Failed to get push token for push notification!');
-      return;
-    }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
-    // console.log(token);
-  } else {
-    alert('Must use physical device for Push Notifications');
-  }
-
-  if (Platform.OS === 'android') {
-    Notifications.setNotificationChannelAsync('default', {
-      name: 'default',
-      importance: Notifications.AndroidImportance.MAX,
-      vibrationPattern: [0, 250, 250, 250],
-      lightColor: '#FF231F7C',
-    });
-  }
-
-  return token;
-}
-
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: false,
-    shouldSetBadge: false,
-  }),
-});
-
-const Tab = createBottomTabNavigator();
-
 export default function App() {
-  const [userPlants, setUserPlants] = useState([]);
+  async function registerForPushNotificationsAsync() {
+    let token;
+    if (Constants.isDevice) {
+      const {
+        status: existingStatus,
+      } = await Notifications.getPermissionsAsync();
+      let finalStatus = existingStatus;
+      if (existingStatus !== 'granted') {
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+      }
+      if (finalStatus !== 'granted') {
+        alert('Failed to get push token for push notification!');
+        return;
+      }
+      token = (await Notifications.getExpoPushTokenAsync()).data;
+      // console.log(token);
+    } else {
+      alert('Must use physical device for Push Notifications');
+    }
+
+    if (Platform.OS === 'android') {
+      Notifications.setNotificationChannelAsync('default', {
+        name: 'default',
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: '#FF231F7C',
+      });
+    }
+
+    return token;
+  }
+
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: false,
+      shouldSetBadge: false,
+    }),
+  });
+
+  const Tab = createBottomTabNavigator();
+  interface userPlantProperties {
+    name: string,
+      common_name: string,
+      scientific_name: string,
+      origin: string,
+      water_days: number,
+      next_water: Date,
+      light: string,
+      humidity: string,
+      temperature: number,
+      feed: string,
+      repot: string,
+      pets: string,
+      difficulty: number,
+      common_problems: Array<{
+        symptom: string,
+        cause: string
+      }>
+  }
+
+  const [userPlants, setUserPlants] = useState<userPlantProperties[]>([]);
   const [needsWatering, setNeedsWatering] = useState(0);
   const [notify, setNotify] = useState(false);
   const [expoPushToken, setExpoPushToken] = useState('');
-  const [notification, setNotification] = useState(false);
-  const notificationListener = useRef();
-  const responseListener = useRef();
+  const [notification, setNotification] = useState<boolean>(false);
+  const notificationListener = useRef<Subscription>();
+  const responseListener = useRef<Subscription>();
+
+  const checkSchedule = (plants: userPlantProperties[]) => {
+    const filtered = plants.filter((plant: userPlantProperties) => {
+      const nextWater = moment(plant.next_water).add(1, 'days').toISOString();
+      const today = moment().toISOString();
+      return moment(nextWater).isSameOrBefore(today);
+    });
+    return filtered.length;
+  };
+
 
   useEffect(() => {
-    ApiService.getUserPlants().then((userPlants) => setUserPlants(userPlants));
+    ApiService.getUserPlants().then((userPlants: userPlantProperties[]) => setUserPlants(userPlants));
   }, []);
 
   useEffect(() => {
-    registerForPushNotificationsAsync().then((token) =>
-      setExpoPushToken(token),
-    );
+    registerForPushNotificationsAsync().then((token: any) => setExpoPushToken(token));
 
     // This listener is fired whenever a notification is received while the app is foregrounded
     notificationListener.current = Notifications.addNotificationReceivedListener(
-      (notification) => {
+      (notification: any) => {
         setNotification(notification);
       },
     );
 
-    // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(
-      (response) => {
-        // console.log(response);
-      },
-    );
+    // // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
+    // responseListener.current = Notifications.addNotificationResponseReceivedListener(
+    //   (response) => {
+    //     // console.log(response);
+    //   },
+    // );
 
     return () => {
-      Notifications.removeNotificationSubscription(
-        notificationListener.current,
-      );
-      Notifications.removeNotificationSubscription(responseListener.current);
+      if (notificationListener.current) {
+        Notifications.removeNotificationSubscription(
+          notificationListener.current,
+        );
+      }
+
+      if (responseListener.current) {
+        Notifications.removeNotificationSubscription(responseListener.current);
+      }
     };
   }, []);
 
@@ -124,16 +158,7 @@ export default function App() {
     }
   }, [notify]);
 
-  const checkSchedule = (plants) => {
-    const filtered = plants.filter((plant) => {
-      const nextWater = moment(plant.next_water).add(1, 'days').toISOString();
-      const today = moment().toISOString();
-      return moment(nextWater).isSameOrBefore(today);
-    });
-    return filtered.length;
-  };
-
-  let [fontsLoaded] = useFonts({
+  const [fontsLoaded] = useFonts({
     FanwoodText_400Regular,
     Quattrocento_700Bold,
   });
