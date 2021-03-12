@@ -17,7 +17,11 @@ import Icon from '../Icons/Icons';
 import styles from './PlantForm.style';
 import ApiService from '../../services/ApiService';
 
-export default function PlantForm({ setUserPlants }) {
+interface IPlantFormProps {
+  setUserPlants(): any
+}
+
+export default function PlantForm({ setUserPlants }: IPlantFormProps) {
   const [plants, setPlants] = useState([]);
   const [typeQuery, setTypeQuery] = useState('');
   const [nameQuery, setNameQuery] = useState('');
@@ -204,4 +208,8 @@ export default function PlantForm({ setUserPlants }) {
       </TouchableOpacity>
     </View>
   );
+  
 }
+
+
+
