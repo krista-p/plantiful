@@ -1,7 +1,12 @@
 import * as React from 'react';
 import { Image } from 'react-native';
 
-export default function Icon({ plantName, plantStyle }) {
+interface IIconProps {
+  plantName: string,
+  plantStyle: string
+}
+
+export default function Icon({ plantName, plantStyle }: IIconProps) {
   switch (plantName) {
     case 'Aloe Vera':
       return (

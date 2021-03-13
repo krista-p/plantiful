@@ -22,7 +22,28 @@ interface IPlantFormProps {
 }
 
 export default function PlantForm({ setUserPlants }: IPlantFormProps) {
-  const [plants, setPlants] = useState([]);
+  interface IPlantProperties {
+    common_name: string,
+    scientific_name: string,
+    origin: string,
+    water_days: number,
+    light: string,
+    humidity: string,
+    temperature: {
+      max: number,
+      min: number
+    },
+    feed: string,
+    repot: string,
+    pets: string,
+    difficulty: number,
+    common_problems: Array<{
+      symptom: string,
+      cause: string
+    }>
+  }
+
+  const [plants, setPlants] = useState<IPlantProperties[]>([]);
   const [typeQuery, setTypeQuery] = useState('');
   const [nameQuery, setNameQuery] = useState('');
   const [filtered, setFiltered] = useState([]);
@@ -34,7 +55,7 @@ export default function PlantForm({ setUserPlants }: IPlantFormProps) {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    ApiService.getPlants().then((plants) => {
+    ApiService.getPlants().then((plants: IPlantProperties) => {
       setPlants(plants);
       setFiltered(plants.slice());
     });
@@ -53,7 +74,7 @@ export default function PlantForm({ setUserPlants }: IPlantFormProps) {
     }
   }, [typeQuery]);
 
-  const validateInput = (typeQuery, plants) => {
+  const validateInput = (typeQuery: string, plants: IPlantProperties) => {
     const filtered = plants.filter((plant) => plant.common_name === typeQuery);
     return filtered.length;
   };

@@ -9,7 +9,33 @@ import Icon from '../Icons/Icons';
 import styles from './PlantItem.style';
 import ApiService from '../../services/ApiService';
 
-export default function PlantItem({ userPlant, setUserPlants }) {
+interface IUserPlantProps {
+  setUserPlants(): any,
+  userPlant: {
+    name: string,
+    common_name: string,
+    scientific_name: string,
+    origin: string,
+    water_days: number,
+    next_water: Date,
+    light: string,
+    humidity: string,
+    temperature: {
+      max: number,
+      min: number
+    },
+    feed: string,
+    repot: string,
+    pets: string,
+    difficulty: number,
+    common_problems: Array<{
+      symptom: string,
+      cause: string
+    }>
+  }
+}
+
+export default function PlantItem({ userPlant, setUserPlants }: IUserPlantProps) {
   const [remainingDays, setRemainingDays] = useState(
     moment(userPlant.next_water).diff(moment(), 'days') + 1,
   );
