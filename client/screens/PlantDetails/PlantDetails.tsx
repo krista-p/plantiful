@@ -8,7 +8,10 @@ import { Feather } from '@expo/vector-icons';
 import FlipCard from 'react-native-flip-card';
 import styles from './PlantDetails.style';
 
-export default function NestedScreen({ route }) {
+interface IRoute {
+  route: any
+}
+export default function NestedScreen({ route }: IRoute) {
   const difficulty = (10 - route.params.userPlant.difficulty) / 10;
 
   return (
@@ -57,10 +60,12 @@ export default function NestedScreen({ route }) {
                 </View>
                 <View style={styles.temperature_text}>
                   <Text style={styles.icon_number}>
-                    {route.params.userPlant.temperature.max}c
+                    {route.params.userPlant.temperature.max}
+                    c
                   </Text>
                   <Text style={styles.icon_number}>
-                    {route.params.userPlant.temperature.min}c
+                    {route.params.userPlant.temperature.min}
+                    c
                   </Text>
                 </View>
               </View>

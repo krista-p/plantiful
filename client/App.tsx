@@ -19,6 +19,19 @@ import Home from './screens/Home/Home';
 import AddPlant from './screens/AddPlant/AddPlant';
 import GreenhouseStackNavigation from './screens/GreenhouseStackNavigation/GreenhouseStackNavigation';
 
+interface ITabBarProps {
+  focused: boolean,
+  color: string,
+  size: number
+}
+
+interface IIoniconsProps {
+  name: string,
+  size: number,
+  color: string
+}
+
+
 export default function App() {
   async function registerForPushNotificationsAsync() {
     let token;
@@ -71,7 +84,10 @@ export default function App() {
       next_water: Date,
       light: string,
       humidity: string,
-      temperature: number,
+      temperature: {
+        max: number,
+        min: number
+      }
       feed: string,
       repot: string,
       pets: string,
@@ -169,7 +185,7 @@ export default function App() {
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
+          tabBarIcon: ({ focused, color, size }: ITabBarProps) => {
             let iconName;
 
             if (route.name === 'Home') {
@@ -180,7 +196,7 @@ export default function App() {
               iconName = focused ? 'ios-leaf' : 'ios-leaf-outline';
             }
 
-            return <Ionicons name={iconName} size={size} color={color} />;
+          return <Ionicons name={iconName} size={size} color={color} />;
           },
         })}
         tabBarOptions={{
