@@ -5,10 +5,15 @@ import MyPlants from '../MyPlants/MyPlants';
 
 const Stack = createStackNavigator();
 
+interface IStackNavigation {
+  userPlants: Array<object>,
+  setUserPlants(): any
+}
+
 export default function GreenhouseStackNavigation({
   userPlants,
   setUserPlants,
-}) {
+}: IStackNavigation) {
   return (
     <Stack.Navigator>
       <Stack.Screen

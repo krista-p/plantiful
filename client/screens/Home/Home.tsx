@@ -3,9 +3,36 @@ import React from 'react';
 import { SafeAreaView, View, Text, Image } from 'react-native';
 import styles from './Home.style';
 
-export default function Home({ userPlants }) {
-  const checkSchedule = (plants) => {
-    const filtered = plants.filter((plant) => {
+interface userPlantProperties {
+  name: string,
+    common_name: string,
+    scientific_name: string,
+    origin: string,
+    water_days: number,
+    next_water: Date,
+    light: string,
+    humidity: string,
+    temperature: {
+      max: number,
+      min: number
+    }
+    feed: string,
+    repot: string,
+    pets: string,
+    difficulty: number,
+    common_problems: Array<{
+      symptom: string,
+      cause: string
+    }>
+}
+
+interface IUserPlants {
+  userPlants: Array<userPlantProperties>
+}
+
+export default function Home({ userPlants }): IUserPlants {
+  const checkSchedule = (plants: IUserPlants) => {
+    const filtered = plants.filter((plant: userPlantProperties) => {
       const nextWater = moment(plant.next_water).add(1, 'days').toISOString();
       const today = moment().toISOString();
       return moment(nextWater).isSameOrBefore(today);

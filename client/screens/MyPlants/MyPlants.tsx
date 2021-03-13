@@ -10,7 +10,12 @@ import {
 import PlantItem from '../../components/PlantItem/PlantItem';
 import styles from './MyPlants.style';
 
-export default function MyPlants({ userPlants, setUserPlants, navigation }) {
+interface IMyPlants {
+  userPlants: Array<object>,
+  setUserPlants(): any,
+  navigation: any
+}
+export default function MyPlants({ userPlants, setUserPlants, navigation }: IMyPlants) {
   return (
     <SafeAreaView>
       <View style={styles.container}>
@@ -24,7 +29,7 @@ export default function MyPlants({ userPlants, setUserPlants, navigation }) {
           <FlatList
             style={styles.list}
             data={userPlants}
-            keyExtractor={(item) => item._id}
+            keyExtractor={(item): any => item._id}
             renderItem={({ item }) => (
               <TouchableOpacity
                 activeOpacity={0.9}
