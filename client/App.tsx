@@ -12,7 +12,6 @@ import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
 import { Quattrocento_700Bold } from '@expo-google-fonts/quattrocento';
 import { FanwoodText_400Regular } from '@expo-google-fonts/fanwood-text';
-import PropTypes from 'prop-types';
 import { Subscription } from '@unimodules/core';
 import ApiService from './services/ApiService';
 import Home from './screens/Home/Home';
