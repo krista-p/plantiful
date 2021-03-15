@@ -1,7 +1,7 @@
 export {};
 const baseURL = process.env.IP;
 
-function fetchRequest(path: string, options: object) {
+export function fetchRequest(path: string, options: object) {
   return fetch(baseURL + path, options)
     .then((res) => (res.status === 204 ? res : res.json()))
     .catch((error) => {
@@ -9,19 +9,19 @@ function fetchRequest(path: string, options: object) {
     });
 }
 
-function getPlants() {
+export function getPlants() {
   return fetchRequest('/plants', {});
 }
 
-function findPlant(name: string) {
+export function findPlant(name: string) {
   return fetchRequest(`/plants/${name}`, {});
 }
 
-function getUserPlants() {
+export function getUserPlants() {
   return fetchRequest('/userplants', {});
 }
 
-function updateNextWater(id: string, body: object) {
+export function updateNextWater(id: string, body: object) {
   return fetchRequest(`/userplants/${id}`, {
     method: 'PUT',
     headers: {
@@ -31,13 +31,13 @@ function updateNextWater(id: string, body: object) {
   });
 }
 
-function deleteUserPlant(id: string) {
+export function deleteUserPlant(id: string) {
   return fetchRequest(`/userplants/${id}`, {
     method: 'DELETE',
   });
 }
 
-function postPlant(body: object) {
+export function postPlant(body: object) {
   return fetchRequest('/userplants', {
     method: 'POST',
     headers: {
@@ -47,11 +47,11 @@ function postPlant(body: object) {
   });
 }
 
-module.exports = {
-  getPlants,
-  findPlant,
-  postPlant,
-  getUserPlants,
-  updateNextWater,
-  deleteUserPlant,
-};
+// module.exports = {
+//   getPlants,
+//   findPlant,
+//   postPlant,
+//   getUserPlants,
+//   updateNextWater,
+//   deleteUserPlant,
+// };

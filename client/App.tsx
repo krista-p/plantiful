@@ -13,7 +13,7 @@ import { useFonts } from 'expo-font';
 import { Quattrocento_700Bold } from '@expo-google-fonts/quattrocento';
 import { FanwoodText_400Regular } from '@expo-google-fonts/fanwood-text';
 import { Subscription } from '@unimodules/core';
-import ApiService from './services/ApiService';
+import * as ApiService from './services/ApiService';
 import Home from './screens/Home/Home';
 import AddPlant from './screens/AddPlant/AddPlant';
 import GreenhouseStackNavigation from './screens/GreenhouseStackNavigation/GreenhouseStackNavigation';

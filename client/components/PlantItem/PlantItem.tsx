@@ -7,7 +7,7 @@ import { Entypo } from '@expo/vector-icons';
 import moment from 'moment';
 import Icon from '../Icons/Icons';
 import styles from './PlantItem.style';
-import ApiService from '../../services/ApiService';
+import * as ApiService from '../../services/ApiService';
 
 interface IUserPlantProps {
   setUserPlants(): any,
@@ -61,7 +61,7 @@ export default function PlantItem({ userPlant, setUserPlants }: IUserPlantProps)
 
   const deleteMe = () => {
     ApiService.deleteUserPlant(userPlant._id).then(() => {
-      setUserPlants((userPlants) =>
+      setUserPlants((userPlants: IUserPlantProps) =>
         userPlants.filter((plant) => plant._id !== userPlant._id),
       );
       Alert.alert(`${userPlant.name} has been removed`);
