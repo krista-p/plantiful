@@ -17,12 +17,37 @@ import Icon from '../Icons/Icons';
 import styles from './PlantForm.style';
 import * as ApiService from '../../services/ApiService';
 
+interface setUserPlantsArgs {
+  _id: string,
+  name: string,
+  common_name: string,
+  scientific_name: string,
+  origin: string,
+  water_days: number,
+  next_water: Date,
+  light: string,
+  humidity: string,
+  temperature: {
+    max: number,
+    min: number
+  },
+  feed: string,
+  repot: string,
+  pets: string,
+  difficulty: number,
+  common_problems: Array<{
+    symptom: string,
+    cause: string
+  }>
+}
+
 interface IPlantFormProps {
-  setUserPlants(): any
+  setUserPlants: (args: any) => setUserPlantsArgs[]
 }
 
 export default function PlantForm({ setUserPlants }: IPlantFormProps) {
   interface IPlantProperties {
+    key: keyof IPlantProperties,
     common_name: string,
     scientific_name: string,
     origin: string,
@@ -46,7 +71,7 @@ export default function PlantForm({ setUserPlants }: IPlantFormProps) {
   const [plants, setPlants] = useState<IPlantProperties[]>([]);
   const [typeQuery, setTypeQuery] = useState('');
   const [nameQuery, setNameQuery] = useState('');
-  const [filtered, setFiltered] = useState([]);
+  const [filtered, setFiltered] = useState<IPlantProperties[]>([]);
   const [isFocused, setIsFocused] = useState(false);
   const [dateString, setDateString] = useState(
     moment(new Date()).format('Do MMM YYYY'),
@@ -55,7 +80,7 @@ export default function PlantForm({ setUserPlants }: IPlantFormProps) {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    ApiService.getPlants().then((plants: IPlantProperties) => {
+    ApiService.getPlants().then((plants: IPlantProperties[]) => {
       setPlants(plants);
       setFiltered(plants.slice());
     });
@@ -74,13 +99,13 @@ export default function PlantForm({ setUserPlants }: IPlantFormProps) {
     }
   }, [typeQuery]);
 
-  const validateInput = (typeQuery: string, plants: IPlantProperties) => {
+  const validateInput = (typeQuery: string, plants: IPlantProperties[]) => {
     const filtered = plants.filter((plant) => plant.common_name === typeQuery);
     return filtered.length;
   };
 
-  const sortList = (data, key) => {
-    return data.sort((a, b) => {
+  const sortList = (data: IPlantProperties[], key: keyof IPlantProperties) => {
+    return data.sort((a: IPlantProperties, b: IPlantProperties) => {
       if (a[key] > b[key]) return 1;
       else if (a[key] < b[key]) return -1;
       return 0;
@@ -95,12 +120,12 @@ export default function PlantForm({ setUserPlants }: IPlantFormProps) {
     setShow(false);
   };
 
-  const handleSuggestionPress = (item) => {
+  const handleSuggestionPress = (item: IPlantProperties) => {
     setTypeQuery(item.common_name);
     setIsFocused(false);
   };
 
-  const handleDateChange = (event, selectedDate) => {
+  const handleDateChange = (event: string, selectedDate: Date) => {
     setDateString(moment(selectedDate).format('Do MMM YYYY'));
     setDate(selectedDate);
   };
@@ -125,7 +150,7 @@ export default function PlantForm({ setUserPlants }: IPlantFormProps) {
           'd',
         );
         ApiService.postPlant(plant).then((res) =>
-          setUserPlants((prevPlants) => [...prevPlants, res]),
+          setUserPlants((prevPlants: setUserPlantsArgs[]) => [...prevPlants, res]),
         );
         Alert.alert('Your new plant has been added');
       });

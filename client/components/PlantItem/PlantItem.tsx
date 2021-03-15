@@ -9,8 +9,32 @@ import Icon from '../Icons/Icons';
 import styles from './PlantItem.style';
 import * as ApiService from '../../services/ApiService';
 
+interface setUserPlantsArgs {
+  _id: string,
+  name: string,
+  common_name: string,
+  scientific_name: string,
+  origin: string,
+  water_days: number,
+  next_water: Date,
+  light: string,
+  humidity: string,
+  temperature: {
+    max: number,
+    min: number
+  },
+  feed: string,
+  repot: string,
+  pets: string,
+  difficulty: number,
+  common_problems: Array<{
+    symptom: string,
+    cause: string
+  }>
+}
+
 interface IUserPlantProps {
-  setUserPlants(): any,
+  setUserPlants: (args: any) => setUserPlantsArgs[]
   userPlant: {
     name: string,
     common_name: string,
@@ -35,6 +59,7 @@ interface IUserPlantProps {
   }
 }
 
+
 export default function PlantItem({ userPlant, setUserPlants }: IUserPlantProps) {
   const [remainingDays, setRemainingDays] = useState(
     moment(userPlant.next_water).diff(moment(), 'days') + 1,
@@ -44,15 +69,15 @@ export default function PlantItem({ userPlant, setUserPlants }: IUserPlantProps)
     const update = {
       next_water: moment().add(userPlant.water_days, 'd'),
     };
-    ApiService.updateNextWater(userPlant._id, update).then((updatedPlant: IUserPlantProps) => {
+    ApiService.updateNextWater(userPlant._id, update).then((updatedPlant) => {
       setRemainingDays(
         moment(updatedPlant.next_water).diff(moment(), 'days') + 1,
       );
-      setUserPlants((plants: Array<IUserPlantProps>) => {
+      setUserPlants((plants: setUserPlantsArgs[]) => {
         const index = plants.findIndex(
-          (plant: IUserPlantProps) => plant._id === updatedPlant._id,
+          (plant) => plant._id === updatedPlant._id,
         );
-        const plantsCopy: Array<IUserPlantProps> = [...plants];
+        const plantsCopy = [...plants];
         plantsCopy.splice(index, 1, updatedPlant);
         return plantsCopy;
       });
@@ -61,7 +86,7 @@ export default function PlantItem({ userPlant, setUserPlants }: IUserPlantProps)
 
   const deleteMe = () => {
     ApiService.deleteUserPlant(userPlant._id).then(() => {
-      setUserPlants((userPlants: IUserPlantProps) =>
+      setUserPlants((userPlants: setUserPlantsArgs[]) =>
         userPlants.filter((plant) => plant._id !== userPlant._id),
       );
       Alert.alert(`${userPlant.name} has been removed`);

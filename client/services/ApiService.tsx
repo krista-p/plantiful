@@ -46,12 +46,3 @@ export function postPlant(body: object) {
     body: JSON.stringify(body),
   });
 }
-
-// module.exports = {
-//   getPlants,
-//   findPlant,
-//   postPlant,
-//   getUserPlants,
-//   updateNextWater,
-//   deleteUserPlant,
-// };
