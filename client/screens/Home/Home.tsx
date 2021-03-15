@@ -26,12 +26,10 @@ interface userPlantProperties {
     }>
 }
 
-interface IUserPlants {
-  userPlants: Array<userPlantProperties>
-}
 
-export default function Home({ userPlants }): IUserPlants {
-  const checkSchedule = (plants: IUserPlants) => {
+
+export default function Home({ userPlants }): Array<userPlantProperties> {
+  const checkSchedule = (plants: Array<userPlantProperties>) => {
     const filtered = plants.filter((plant: userPlantProperties) => {
       const nextWater = moment(plant.next_water).add(1, 'days').toISOString();
       const today = moment().toISOString();

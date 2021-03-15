@@ -25,13 +25,6 @@ interface ITabBarProps {
   size: number
 }
 
-interface IIoniconsProps {
-  name: string,
-  size: number,
-  color: string
-}
-
-
 export default function App() {
   async function registerForPushNotificationsAsync() {
     let token;
