@@ -15,7 +15,7 @@ import { AntDesign } from '@expo/vector-icons';
 import moment from 'moment';
 import Icon from '../Icons/Icons';
 import styles from './PlantForm.style';
-import ApiService from '../../services/ApiService';
+import * as ApiService from '../../services/ApiService';
 
 interface IPlantFormProps {
   setUserPlants(): any
