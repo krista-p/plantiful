@@ -44,15 +44,15 @@ export default function PlantItem({ userPlant, setUserPlants }: IUserPlantProps)
     const update = {
       next_water: moment().add(userPlant.water_days, 'd'),
     };
-    ApiService.updateNextWater(userPlant._id, update).then((updatedPlant) => {
+    ApiService.updateNextWater(userPlant._id, update).then((updatedPlant: IUserPlantProps) => {
       setRemainingDays(
         moment(updatedPlant.next_water).diff(moment(), 'days') + 1,
       );
-      setUserPlants((plants) => {
+      setUserPlants((plants: Array<IUserPlantProps>) => {
         const index = plants.findIndex(
-          (plant) => plant._id === updatedPlant._id,
+          (plant: IUserPlantProps) => plant._id === updatedPlant._id,
         );
-        const plantsCopy = [...plants];
+        const plantsCopy: Array<IUserPlantProps> = [...plants];
         plantsCopy.splice(index, 1, updatedPlant);
         return plantsCopy;
       });
