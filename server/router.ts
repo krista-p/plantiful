@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const plant = require('./controllers/plant');
-const userPlant = require('./controllers/userPlant');
+const plant = require('./controllers/plant.ts');
+const userPlant = require('./controllers/userPlant.ts');
 
 router.get('/plants', plant.getPlants);
 router.get('/plants/:name', plant.findPlant);
