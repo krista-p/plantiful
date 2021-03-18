@@ -3,6 +3,8 @@ module.exports = {
     browser: true,
     es2021: true,
     'react-native/react-native': true,
+    node: true,
+    jest: true,
   },
   extends: [
     'plugin:react/recommended',
