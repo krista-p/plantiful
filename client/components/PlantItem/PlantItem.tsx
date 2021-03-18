@@ -181,7 +181,7 @@ export default function PlantItem({ userPlant, setUserPlants }: IUserPlantProps)
           />
         </TouchableOpacity>
         <TouchableOpacity style={styles.delete} onPress={handleDelete}>
-          <MaterialIcons name="highlight-remove" size={24} color="#fcd9c8" />
+          <MaterialIcons name="highlight-remove" size={24} color="#fcd9c8" testId="deleteButton" />
         </TouchableOpacity>
       </View>
     </View>

@@ -1,7 +1,7 @@
-import { UserPlant } from '../models/userPlant';
 import { Request, Response } from 'express';
+import { UserPlant } from '../models/userPlant';
 
-exports.getUserPlants = async (_: Request, res: Response) => {
+export const getUserPlants = async (_: Request, res: Response) => {
   try {
     const userPlants = await UserPlant.find();
     res.status(200);
@@ -13,7 +13,7 @@ exports.getUserPlants = async (_: Request, res: Response) => {
   }
 };
 
-exports.postUserPlant = async (req: Request, res: Response) => {
+export const postUserPlant = async (req: Request, res: Response) => {
   try {
     const userPlant = await UserPlant.create(req.body);
     res.status(201);
@@ -25,7 +25,7 @@ exports.postUserPlant = async (req: Request, res: Response) => {
   }
 };
 
-exports.updateNextWater = async (req: Request, res: Response) => {
+export const updateNextWater = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const userPlant = await UserPlant.findByIdAndUpdate(id, req.body, {
@@ -40,7 +40,7 @@ exports.updateNextWater = async (req: Request, res: Response) => {
   }
 };
 
-exports.deleteUserPlant = async (req: Request, res: Response) => {
+export const deleteUserPlant = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     await UserPlant.findByIdAndDelete(id);
